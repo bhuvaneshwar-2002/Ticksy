@@ -87,7 +87,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="row spread" style={{ marginBottom: 16 }}>
+      <div className="row spread dash-head" style={{ marginBottom: 16 }}>
         <div className="seg" role="group" aria-label="Date range">
           {RANGES.map((r) => (
             <button key={r.days} type="button" aria-pressed={rangeDays === r.days} onClick={() => setRangeDays(r.days)}>

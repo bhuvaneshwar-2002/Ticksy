@@ -56,8 +56,13 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
+  -webkit-tap-highlight-color: transparent;
   background: var(--page);
   color: var(--text);
   line-height: 1.45;
@@ -287,7 +292,7 @@ select {
 
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
   margin-bottom: 16px;
 }
@@ -428,6 +433,13 @@ th.num {
 .settings-item .title {
   flex: 1;
   min-width: 140px;
+  overflow-wrap: anywhere;
+}
+
+.item-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 .paused {
@@ -453,4 +465,186 @@ th.num {
   height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
+}
+
+/* ---------- Mobile / small screens ---------- */
+
+.shell {
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+}
+
+.check span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .shell {
+    padding-top: env(safe-area-inset-top);
+    /* room for the fixed bottom tab bar */
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .topbar {
+    padding: 12px 0 8px;
+  }
+
+  /* Navigation becomes a bottom tab bar, easy to reach with a thumb. */
+  .nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    gap: 0;
+    border-radius: 0;
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+
+  .nav a {
+    flex: 1;
+    text-align: center;
+    padding: 12px 4px;
+    font-size: 14px;
+  }
+
+  .nav a.active {
+    background: var(--surface-2);
+    box-shadow: none;
+    font-weight: 600;
+  }
+
+  .card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  /* 16px inputs stop iOS Safari from zooming the page on focus. */
+  .input {
+    font-size: 16px;
+    min-height: 44px;
+  }
+
+  .btn {
+    min-height: 44px;
+    padding: 8px 14px;
+  }
+
+  .btn.icon {
+    min-width: 44px;
+  }
+
+  /* Segmented controls fill the width and share it evenly. */
+  .seg {
+    display: flex;
+    width: 100%;
+  }
+
+  .seg button {
+    flex: 1;
+    justify-content: center;
+    min-height: 40px;
+    padding: 6px 4px;
+    font-size: 14px;
+    flex-wrap: wrap;
+    row-gap: 0;
+  }
+
+  .check {
+    padding: 14px 4px;
+    min-height: 48px;
+  }
+
+  .check input {
+    width: 24px;
+    height: 24px;
+  }
+
+  .tile .v {
+    font-size: 24px;
+  }
+
+  .dash-head .note {
+    width: 100%;
+  }
+
+  /* Add form: stacked, full-width controls. */
+  .add-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-form .btn {
+    width: 100%;
+  }
+
+  /* Item rows: title on top, action buttons share the row below. */
+  .settings-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 0;
+  }
+
+  .settings-item .title {
+    min-width: 0;
+  }
+
+  .item-actions {
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+
+  .item-actions .btn {
+    flex: 1;
+    padding: 8px 4px;
+    min-width: 0;
+  }
+
+  .item-actions .btn.icon {
+    flex: 0 0 40px;
+    min-width: 40px;
+  }
+
+  .edit-form .row {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .edit-form .btn {
+    width: 100%;
+  }
+
+  .edit-form input[type='date'] {
+    flex: 1;
+    max-width: 60%;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  th,
+  td {
+    padding: 8px 6px;
+  }
+
+  /* Keep item names readable while the table scrolls sideways. */
+  td:first-child {
+    min-width: 130px;
+  }
+}
+
+@media (max-width: 360px) {
+  .seg button .tag {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress > div {
+    transition: none;
+  }
 }

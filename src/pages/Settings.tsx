@@ -49,7 +49,7 @@ export default function Settings() {
       <section className="card">
         <h2>Add an item</h2>
         <p className="sub">Choose how often it should be checked. It shows up under that tab on the Checklist page.</p>
-        <form className="row" onSubmit={add}>
+        <form className="row add-form" onSubmit={add}>
           <input
             className="input grow"
             placeholder="e.g. Drink 2L water"
@@ -145,7 +145,7 @@ function ItemRow({ item, prev, next }: { item: Item; prev?: Item; next?: Item })
 
   if (editing) {
     return (
-      <form className="settings-item" onSubmit={save}>
+      <form className="settings-item edit-form" onSubmit={save}>
         <input className="input title" value={title} onChange={(e) => setTitle(e.target.value)} aria-label="Title" />
         <select className="input" value={frequency} onChange={(e) => setFrequency(e.target.value as Frequency)} aria-label="Frequency">
           {FREQUENCIES.map((f) => (
@@ -173,21 +173,23 @@ function ItemRow({ item, prev, next }: { item: Item; prev?: Item; next?: Item })
       <span className={`title${item.archived ? ' paused' : ''}`}>
         {item.title} {item.archived && <span className="tag">Paused</span>}
       </span>
-      <button className="btn icon" onClick={() => swap(prev)} disabled={!prev} aria-label="Move up">
-        ↑
-      </button>
-      <button className="btn icon" onClick={() => swap(next)} disabled={!next} aria-label="Move down">
-        ↓
-      </button>
-      <button className="btn" onClick={() => setEditing(true)}>
-        Edit
-      </button>
-      <button className="btn" onClick={() => db.items.update(item.id, { archived: !item.archived })}>
-        {item.archived ? 'Resume' : 'Pause'}
-      </button>
-      <button className="btn danger" onClick={remove}>
-        Delete
-      </button>
+      <div className="item-actions">
+        <button className="btn icon" onClick={() => swap(prev)} disabled={!prev} aria-label="Move up">
+          ↑
+        </button>
+        <button className="btn icon" onClick={() => swap(next)} disabled={!next} aria-label="Move down">
+          ↓
+        </button>
+        <button className="btn" onClick={() => setEditing(true)}>
+          Edit
+        </button>
+        <button className="btn" onClick={() => db.items.update(item.id, { archived: !item.archived })}>
+          {item.archived ? 'Resume' : 'Pause'}
+        </button>
+        <button className="btn danger" onClick={remove}>
+          Delete
+        </button>
+      </div>
     </div>
   )
 }
